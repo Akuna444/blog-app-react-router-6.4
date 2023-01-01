@@ -1,7 +1,7 @@
 import classes from "./NewPostForm.module.css";
 import { Form } from "react-router-dom";
 
-function NewPostForm({ onCancel, onSubmit, submitting }) {
+function NewPostForm({ onCancel, submitting }) {
   return (
     <Form className={classes.form} method="post" action="/blog/new">
       <fieldset>

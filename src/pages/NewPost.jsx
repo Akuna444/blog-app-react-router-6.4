@@ -1,11 +1,18 @@
 import NewPostForm from "../components/NewPostForm";
 import { savePost } from "../util/api";
-import { redirect } from "react-router-dom";
+import { redirect, useActionData, useNavigation } from "react-router-dom";
 
 function NewPostPage() {
+  const cancelHandler = () => {};
+  const error = useActionData();
+  const navigation = useNavigation();
   return (
     <>
-      <NewPostForm onCancel={cancelHandler} />
+      {error && error.status && <p>{error.message}</p>}
+      <NewPostForm
+        onCancel={cancelHandler}
+        submitting={navigation.state === "submitting"}
+      />
     </>
   );
 }
@@ -18,9 +25,9 @@ export async function action({ request }) {
   };
 
   try {
-    savePost(post);
+    await savePost(post);
   } catch (err) {
-    throw err;
+    return err;
   }
 
   return redirect("/blog");
